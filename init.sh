@@ -70,13 +70,12 @@ PATRIMOINE_BASE_DIR="$HOME/.patrimoine"
 PATRIMOINE_DOWNLOAD_SUB_DIRS=("planifies" "realises" "justificatifs")
 
 # Creating Patrimoine Directories
-create_patrimoine_directories() {
-    echo "[START] - Creating necessary patrimoine folders"
-    for sub_dir in "${PATRIMOINE_DOWNLOAD_SUB_DIRS[@]}"; do
-        mkdir -p "$PATRIMOINE_BASE_DIR/download/$sub_dir"
-    done
-    echo "[FINISHED] - Creating necessary patrimoine folders"
-}
+echo ""
+echo "[START] - Creating necessary patrimoine folders"
+for sub_dir in "${PATRIMOINE_DOWNLOAD_SUB_DIRS[@]}"; do
+    mkdir -p "$PATRIMOINE_BASE_DIR/download/$sub_dir"
+done
+echo "[FINISHED] - Creating necessary patrimoine folders"
 
 # Download templates if not downloaded yet
 download_file() {
