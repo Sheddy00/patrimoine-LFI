@@ -5,6 +5,11 @@ MOI=$1
 SEX=$2
 PETIT_COPAIN_OU_PETITE_COPINE=$([[ "$SEX" == "M" ]] && echo "PetiteCopine" || echo "PetitCopain")
 
+# Detect windows
+is_windows() {
+    [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" || "$OSTYPE" == "cygwin" ]]
+}
+
 # Config
 PATRIMOINE_BASE_DIR="$HOME/.patrimoine"
 PATRIMOINE_DOWNLOAD_SUB_DIRS=("planifies" "realises" "justificatifs")
@@ -24,7 +29,11 @@ download_file() {
     local dest="$2"
 
     if command -v curl &>/dev/null; then
-        curl -L -o "$dest" "$url"
+        if is_windows; then
+            curl --ssl-no-revoke -L -o "$dest" "$url"
+        else
+            curl -L -o "$dest" "$url"
+        fi
     elif command -v wget &>/dev/null; then
         wget -O "$dest" "$url"
     else
@@ -115,12 +124,20 @@ if [ -n "$EXISTING_JAR" ]; then
     else
         echo "Ancienne version détectée : $CURRENT_VERSION. Suppression et téléchargement de la version $LAST_VERSION..."
         rm -f "$EXISTING_JAR"
-        curl -L -o "$JAR_NAME" "$LINK"
+        if is_windows; then
+            curl --ssl-no-revoke -L -o "$JAR_NAME" "$LINK"
+        else
+            curl -L -o "$JAR_NAME" "$LINK"
+        fi
     fi
 else
     echo "Aucune version détectée. Téléchargement de la version $LAST_VERSION..."
     echo "Le téléchargement peut prendre quelques instants..."
-    curl -L -o "$JAR_NAME" "$LINK"
+    if is_windows; then
+        curl --ssl-no-revoke -L -o "$JAR_NAME" "$LINK"
+    else
+        curl -L -o "$JAR_NAME" "$LINK"
+    fi
 fi
 
 echo "Lancement de $JAR_NAME..."
