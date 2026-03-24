@@ -49,7 +49,7 @@ if [ -n "$JAR_FILES" ]; then
         echo " $jar"
     done
     echo ""
-    read -p "Do you want to delete the JAR file(s)? ? (o/N) : " -n 1 -r
+    read -p "Do you want to delete the JAR file(s)? (y/N) : " -r
     echo ""
     DELETE_JAR=false
     if [[ $REPLY =~ ^[OoYy]$ ]]; then
@@ -60,7 +60,7 @@ else
 fi
 
 echo ""
-read -p "Confirm deletion ? (o/N) : " -n 1 -r
+read -p "Confirm deletion ? (y/N) : " -r
 echo ""
 
 if [[ ! $REPLY =~ ^[OoYy]$ ]]; then
